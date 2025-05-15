@@ -6,6 +6,7 @@ import bisect
 from itertools import permutations
 import random
 from random import randint
+import time
 
 default_theme="DarkBlue"
 
@@ -113,8 +114,11 @@ def random_perms():
         window['-PERM-'].update(sorted(perms))
     else:
         k=200
-        permsl=random.sample(perms,k)
+        permsl=random.sample(list(perms),k)
+        ##start = time.time()
         permssort=quicksort(permsl)
+        ##end = time.time()
+        ##print(end-start)
         window['-PERM-'].update(permssort)
     
 def run_once(f):
@@ -134,7 +138,10 @@ def run_once(f):
 def create_perm():
     str1=values[0].lower()
     global perms
+    ##start = time.time()
     perms=set([''.join(s) for s in permutations(str1)])
+    ##end = time.time()
+    ##print(end-start)
     ##print(len(perms))
     random_perms()
 
