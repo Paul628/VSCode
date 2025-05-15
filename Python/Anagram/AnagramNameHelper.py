@@ -1,6 +1,6 @@
 from math import perm
 from optparse import Values
-import PySimpleGUI as sg
+import FreeSimpleGUI as sg
 from sympy import false, true
 import bisect
 from itertools import permutations
