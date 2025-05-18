@@ -13,9 +13,11 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
+            },
+            "presentation": {
+            "showReuseMessage": false
             }
         },
-
         {
             "label": "Run Python",
             "type": "shell",
@@ -26,7 +28,30 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
+            },
+            "presentation": {
+            "showReuseMessage": false
             }
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: cl.exe build active file",
+            "command": "cl.exe",
+            "args": [
+                "/Zi",
+                "/EHsc",
+                "/nologo",
+                "/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "${file}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ],
+            "group": "build",
+            "detail": "compiler: cl.exe"
         }
     ]
 }

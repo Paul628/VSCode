@@ -1,12 +1,10 @@
-from math import perm
-from optparse import Values
 import FreeSimpleGUI as sg
-from sympy import false, true
 import bisect
 from itertools import permutations
 import random
 from random import randint
 import time
+from collections import Counter
 
 default_theme="DarkBlue"
 
@@ -110,13 +108,13 @@ def letter_check():
 def random_perms():
     str1=values[0].lower()
     global perms
+    batch=200
     if len(str1)<7:
         window['-PERM-'].update(sorted(perms))
     else:
-        k=200
-        permsl=random.sample(list(perms),k)
+        permssort=sorted(random.sample(list(perms),batch))
         ##start = time.time()
-        permssort=quicksort(permsl)
+        ##permssort=quicksort(permsl)
         ##end = time.time()
         ##print(end-start)
         window['-PERM-'].update(permssort)
@@ -137,26 +135,55 @@ def run_once(f):
 @run_once
 def create_perm():
     str1=values[0].lower()
-    global perms
+
+    if not str1.strip():
+        window['-PERM-'].update("Please enter a word")
+        return
+        
+    # Count character frequencies
+    char_count = Counter(str1)
+
+    if all(count == 1 for count in char_count.values()):
+        global perms
+        perms = set([''.join(p) for p in permutations(str1)])
+    else:
+        # Generate unique permutations only
+        perms = set()
+        def _generate_unique_perms(counter, prefix=""):
+            if not counter:  # Counter is empty
+                perms.add(prefix)
+                return
+            
+            for char in counter:
+                new_counter = counter.copy()
+                new_counter[char] -= 1
+                if new_counter[char] == 0:
+                    del new_counter[char]
+                _generate_unique_perms(new_counter, prefix + char)
+        
+        _generate_unique_perms(char_count)
+    
+    random_perms()
+    ##global perms
     ##start = time.time()
-    perms=set([''.join(s) for s in permutations(str1)])
+    ##perms=set([''.join(p) for p in permutations(str1)])
     ##end = time.time()
     ##print(end-start)
     ##print(len(perms))
-    random_perms()
+    ##random_perms()
 
    
 
 
-sg.theme(default_theme)  
+sg.theme("black")  
 #How the window should looke like.
 layout = [  [sg.Text('Please enter 2 Words')],
             [sg.Text('Word 1'), sg.InputText()],
             [sg.Text('Word 2'), sg.InputText()],
-            [sg.Text(auto_size_text=true, key='-OUT-')],
-            [sg.Text(auto_size_text=true, key='-LET-')],
-            #[sg.Listbox(values="",auto_size_text=true,expand_x=true, size=(100,20), key='-PERM-')],
-            [sg.Multiline(key="-PERM-", size=(70,10))],
+            [sg.Text(auto_size_text=True, key='-OUT-')],
+            [sg.Text(auto_size_text=True, key='-LET-')],
+            #[sg.Listbox(values="",auto_size_text=True,expand_x=True, key='-PERM-')],
+            [sg.Multiline(key="-PERM-", size=(100,20), expand_x=True, expand_y=True, autoscroll=True, disabled=True, auto_size_text=True, reroute_stdout=True)],
             [sg.Button('Anagram'), sg.Button('Letters'),sg.Button('Create Permutation',tooltip='Creates permutations of Word 1'), sg.Button('Exit')]
                 ]
 

@@ -3,7 +3,7 @@ import random
 def diffie_hellman():
     # Choose public parameters
     g = 2
-    N = 17678
+    N = 17681  # 17681 is a prime number
     
     # Party A chooses a random value for r
     r_a = random.randint(1, N-1)

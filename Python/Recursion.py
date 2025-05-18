@@ -16,7 +16,7 @@ def fibm(n, memo):#we did some thinking
     return memo[n]
 
 
-def fibi(n):#why not try
+def fibi(n):#why not try iterative
     i = 2
     a = 1
     b = 1

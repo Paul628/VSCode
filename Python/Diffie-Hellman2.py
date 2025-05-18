@@ -12,7 +12,7 @@ def generate_shared_secret(public_key, N, private_key):
 
 # Example usage
 g = 2   # Public parameter
-N = 17  # Public parameter
+N = 17681  # Public parameter
 
 # Party A chooses a random secret exponent
 private_key_a = random.randint(1, N-1)
