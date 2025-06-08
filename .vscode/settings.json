@@ -540,6 +540,8 @@
     },
     "files.associations": {
         "ctype.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "ostream": "cpp",
+        "xlocale": "cpp"
     }
 }
